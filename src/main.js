@@ -72,7 +72,7 @@ window.addEventListener("load", () => {
         setInterval(() => {
             if(globalThis.update === undefined) { return; }
             globalThis.update();
-        }, 1000 / 20);
+        }, 1000 / 30);
     }
 
     function createCanvas() {
