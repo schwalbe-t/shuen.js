@@ -1,6 +1,6 @@
 
 /**
- * Returns if the given key is pressed.
+ * Returns if the given keyboard key is pressed.
  * The key name can be one of (case-insensitive):
  * - `"esc"`, `"escape"`
  * - `"0"`, `"1"`, `"2"`, `"3"`, `"4"`, `"5"`, `"6"`, `"7"`, `"8"`, `"9"`,
@@ -118,6 +118,15 @@ const isPressed = (() => {
 })();
 
 
+/**
+ * Returns if the given mouse button is clicked.
+ * The button name can be one of (case-insensitive):
+ * - `"left"`
+ * - `"middle"`, `"wheel"`
+ * - `"right"`
+ * @param {string} button Name of the button to check.
+ * @returns True if the button is clicked at the time of calling, and otherwise false.
+ */
 const isClicked = (() => {
     
     const SHUEN_BUTTON_MAP = Object.freeze({
