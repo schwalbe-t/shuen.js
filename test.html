@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script src="shuen.js"></script>
+        <script>
+            const bigKitty = "https://cdn.britannica.com/70/234870-050-D4D024BB/Orange-colored-cat-yawns-displaying-teeth.jpg";
+            const playerKitty = "https://images.theconversation.com/files/651621/original/file-20250226-32-jxjhmy.jpg?ixlib=rb-4.1.0&rect=0%2C0%2C5991%2C3997&q=20&auto=format&w=320&fit=clip&dpr=2&usm=12&cs=strip";
+            spawn(bigKitty, 5);
+            const player = spawn(playerKitty);
+
+            function update() {
+                if(isPressed("w")) { player.y += 5 / 60.0; }
+                if(isPressed("a")) { player.x -= 5 / 60.0; }
+                if(isPressed("s")) { player.y -= 5 / 60.0; }
+                if(isPressed("d")) { player.x += 5 / 60.0; }
+                lookAt(player.x, player.y);
+            }
+        </script>
+    </head>
+    <body></body>
+</html>

@@ -35,6 +35,16 @@ the player on screen. It can be changed out for a new scene using the global `re
 
 Additionally scenes can be used to render things off-screen; simply don't set them as the main scene and use their `render`-method. The resulting image can then be used as the image for an entity in another scene.
 
+# Gameloop Handlers
+
+Creating a global function called `update` will cause it to be called by Shuen
+at a fixed rate of 60 times per second. Use this to update game state or render
+off-screen buffers.
+
+Additionally, Shuen will attempt to call a global `render` function if it exists.
+In contrast to `update`, `render` is called at the monitor refresh rate and
+receives the time since the last call in seconds (delta time) as the first argument. However, for most use cases `update` will be sufficient.
+
 # Functions
 
 ### `replaceMainScene(scene)`
