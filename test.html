@@ -1,19 +1,30 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
     <head>
         <script src="shuen.js"></script>
         <script>
-            const bigKitty = "https://cdn.britannica.com/70/234870-050-D4D024BB/Orange-colored-cat-yawns-displaying-teeth.jpg";
-            const playerKitty = "https://images.theconversation.com/files/651621/original/file-20250226-32-jxjhmy.jpg?ixlib=rb-4.1.0&rect=0%2C0%2C5991%2C3997&q=20&auto=format&w=320&fit=clip&dpr=2&usm=12&cs=strip";
+            const bigKitty = "https://upload.wikimedia.org/wikipedia/commons/thumb/1/16/Kot_Leon.JPG/960px-Kot_Leon.JPG";
+            const smallKitty = "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3b/British_shorthair_with_calico_coat_%282%29.jpg/500px-British_shorthair_with_calico_coat_%282%29.jpg";
+            const meow = "https://upload.wikimedia.org/wikipedia/commons/5/51/Meow_normalized.opus";
+            
             spawn(bigKitty, 5);
-            const player = spawn(playerKitty);
+            const player = spawn(smallKitty);
 
             function update() {
-                if(isPressed("w")) { player.y += 5 / 60.0; }
-                if(isPressed("a")) { player.x -= 5 / 60.0; }
-                if(isPressed("s")) { player.y -= 5 / 60.0; }
-                if(isPressed("d")) { player.x += 5 / 60.0; }
-                lookAt(player.x, player.y);
+                let dx = 0, dy = 0;
+                if(isPressed("w")) { dy += 1; }
+                if(isPressed("a")) { dx -= 1; }
+                if(isPressed("s")) { dy -= 1; }
+                if(isPressed("d")) { dx += 1; }
+                if(dx != 0 || dy != 0) {
+                    player.x += dx / Math.hypot(dx, dy) * 5 / 60.0;
+                    player.y += dy / Math.hypot(dx, dy) * 5 / 60.0;
+                }
+                lookAt(player.x, player.y, 10);
+
+                if(wasPressed("m")) {
+                    play(meow);
+                }
             }
         </script>
     </head>
