@@ -8,7 +8,7 @@ const ShuenRenderer = (() => {
             return sprite._canvas;
         }
         if(typeof sprite != "string") {
-            throw new Error("The entity sprite must be a string URL or image object!")
+            throw new Error("The entity sprite must be a string URL or image object!");
         }
         const cached = imageCache[sprite];
         if(cached) { return cached; }

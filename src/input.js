@@ -1,39 +1,5 @@
 
-/**
- * Returns if the given keyboard key is pressed.
- * The key name can be one of (case-insensitive):
- * - `"esc"`, `"escape"`
- * - `"0"`, `"1"`, `"2"`, `"3"`, `"4"`, `"5"`, `"6"`, `"7"`, `"8"`, `"9"`,
- * - `"-"`, `"minus"`
- * - `"="`, `"equal"`
- * - `"backspace"`
- * - `"tab"`
- * - `"a"`, `"b"`, `"c"`, `"d"`, ..., `"w"`, `"x"`, `"y"`, `"z"`
- * - `"["`, `"bracketleft"`, `"leftbracket"`, `"bracketopen"`
- * - `"]"`, `"bracketright"`, `"rightbracket"`, `"bracketclose"`
- * - `"enter"`
- * - `"ctrl"`, `"ctrlleft"`, `"leftctrl"`
- * - `";"`, `"semicolon"`
- * - `'"'`, `"quote"`
- * - `"backquote"`
- * - `"shift"`, `"shiftleft"`, `"leftshift"`
- * - `"\\"`, `"backslash"`
- * - `","`, `"comma"`
- * - `"."`, `"dot"`, `"period"`
- * - `"/"`, `"slash"`
- * - `"shiftright"`, `"rightshift"`
- * - `"alt"`, `"altleft"`, `"leftalt"`
- * - `" "`, `"space"`
- * - `"caps"`, `"capslock"`
- * - `"f1"`, `"f2"`, `"f3"`, ..., `"f10"`, `"f11"`, `"f12"`
- * - `"up"`, `"uparrow"`, `"arrowup"`
- * - `"down"`, `"downarrow"`, `"arrowdown"`
- * - `"left"`, `"leftarrow"`, `"arrowleft"`
- * - `"right"`, `"rightarrow"`, `"arrowright"`
- * @param {string} key Name of the key to check.
- * @returns True if the key is pressed at the time of calling, and otherwise false.
- */
-const isPressed = (() => {
+const ShuenInputManager = (() => {
 
     const SHUEN_KEY_MAP = Object.freeze({
         "esc": "Escape", "escape": "Escape",
@@ -111,20 +77,104 @@ const isPressed = (() => {
         "right": "ArrowRight", "arrowright": "ArrowRight", "rightarrow": "ArrowRight"
     });
 
-    const pressed = new Set();
-    window.addEventListener("keydown", e => pressed.add(e.code));
-    window.addEventListener("keyup", e => pressed.delete(e.code));
-
-    return (key) => {
+    function getKeyCode(key) {
         const keyCode = SHUEN_KEY_MAP[key.toLowerCase()];
-        if(keyCode === undefined) {
-            throw new Error(`'${key}' is not a known key!`);
-        }
-        return pressed.has(keyCode);
+        if(keyCode !== undefined) { return keyCode; }
+        throw new Error(`'${key}' is not a known key!`);
+    }
+
+    const pressed = new Set();
+    const unpressed = new Set();
+    window.addEventListener("keydown", e => pressed.add(e.code));
+    window.addEventListener("keyup", e => {
+        pressed.delete(e.code);
+        unpressed.add(e.code);
+    });
+
+    const isPressed = key => pressed.has(getKeyCode(key));
+    const wasPressed = key => unpressed.has(getKeyCode(key));
+
+
+    const SHUEN_BUTTON_MAP = Object.freeze({
+        "left": 0,
+        "wheel": 1, "middle": 1,
+        "right": 2
+    });
+
+    function getButtonCode(button) {
+        const buttonCode = SHUEN_BUTTON_MAP[button.toLowerCase()];
+        if(buttonCode !== undefined) { return buttonCode; }
+        throw new Error(`'${button}' is not a known button!`);
+    }
+
+    const clicked = new Set();
+    const unclicked = new Set();
+    window.addEventListener("mousedown", e => clicked.add(e.button));
+    window.addEventListener("mouseup", e => {
+        clicked.delete(e.button);
+        unclicked.add(e.button);
+    });
+
+    const isClicked = button => clicked.has(getButtonCode(button));
+    const wasClicked = button => unclicked.has(getButtonCode(button));
+
+
+    function _onUpdateEnd() {
+        unpressed.clear();
+        unclicked.clear();
+    }
+
+    return {
+        isPressed, wasPressed,
+        isClicked, wasClicked,
+        _onUpdateEnd
     };
 
 })();
 
+/**
+ * Returns if the given keyboard key is pressed.
+ * The key name can be one of (case-insensitive):
+ * - `"esc"`, `"escape"`
+ * - `"0"`, `"1"`, `"2"`, `"3"`, `"4"`, `"5"`, `"6"`, `"7"`, `"8"`, `"9"`,
+ * - `"-"`, `"minus"`
+ * - `"="`, `"equal"`
+ * - `"backspace"`
+ * - `"tab"`
+ * - `"a"`, `"b"`, `"c"`, `"d"`, ..., `"w"`, `"x"`, `"y"`, `"z"`
+ * - `"["`, `"bracketleft"`, `"leftbracket"`, `"bracketopen"`
+ * - `"]"`, `"bracketright"`, `"rightbracket"`, `"bracketclose"`
+ * - `"enter"`
+ * - `"ctrl"`, `"ctrlleft"`, `"leftctrl"`
+ * - `";"`, `"semicolon"`
+ * - `'"'`, `"quote"`
+ * - `"backquote"`
+ * - `"shift"`, `"shiftleft"`, `"leftshift"`
+ * - `"\\"`, `"backslash"`
+ * - `","`, `"comma"`
+ * - `"."`, `"dot"`, `"period"`
+ * - `"/"`, `"slash"`
+ * - `"shiftright"`, `"rightshift"`
+ * - `"alt"`, `"altleft"`, `"leftalt"`
+ * - `" "`, `"space"`
+ * - `"caps"`, `"capslock"`
+ * - `"f1"`, `"f2"`, `"f3"`, ..., `"f10"`, `"f11"`, `"f12"`
+ * - `"up"`, `"uparrow"`, `"arrowup"`
+ * - `"down"`, `"downarrow"`, `"arrowdown"`
+ * - `"left"`, `"leftarrow"`, `"arrowleft"`
+ * - `"right"`, `"rightarrow"`, `"arrowright"`
+ * @param {string} key Name of the key to check.
+ * @returns True if the key is pressed at the time of calling, and otherwise false.
+ */
+const isPressed = ShuenInputManager.isPressed;
+
+/**
+ * Returns if the given keyboard key was released since the last update.
+ * Refer to the documentation of `isPressed` for a list of all valid key names.
+ * @param {string} key Name of the key to check.
+ * @returns True if the key was released since the last update, and otherwise false.
+ */
+const wasPressed = ShuenInputManager.wasPressed;
 
 /**
  * Returns if the given mouse button is clicked.
@@ -135,24 +185,15 @@ const isPressed = (() => {
  * @param {string} button Name of the button to check.
  * @returns True if the button is clicked at the time of calling, and otherwise false.
  */
-const isClicked = (() => {
-    
-    const SHUEN_BUTTON_MAP = Object.freeze({
-        "left": 0,
-        "wheel": 1, "middle": 1,
-        "right": 2
-    });
+const isClicked = ShuenInputManager.isClicked;
 
-    const clicked = new Set();
-    window.addEventListener("mousedown", e => clicked.add(e.button));
-    window.addEventListener("mouseup", e => clicked.delete(e.button));
-
-    return (button) => {
-        const buttonCode = SHUEN_BUTTON_MAP[button.toLowerCase()];
-        if(buttonCode === undefined) {
-            throw new Error(`'${button}' is not a known button!`);
-        }
-        return clicked.has(buttonCode);
-    };
-
-})();
+/**
+ * Returns if the given mouse button was released.
+ * The button name can be one of (case-insensitive):
+ * - `"left"`
+ * - `"middle"`, `"wheel"`
+ * - `"right"`
+ * @param {string} button Name of the button to check.
+ * @returns True if the button was released since the last update, and otherwise false.
+ */
+const wasClicked = ShuenInputManager.wasClicked;

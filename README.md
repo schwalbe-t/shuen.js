@@ -129,6 +129,16 @@ Parameters:
 
 Returns: True if the key is pressed at the time of calling, and otherwise false.
 
+### `wasPressed(key)`
+
+Returns if the given keyboard key was released since the last update.
+Refer to the documentation of `isPressed` for a list of all valid key names.
+
+Parameters:
+- `key` - Name of the key to check.
+
+Returns: True if the key was released since the last update, and otherwise false.
+
 ### `isClicked(button)`
 
 Returns if the given mouse button is clicked.
@@ -141,6 +151,29 @@ Parameters:
 - `button` - The name of the button to check. Must be one of the above strings.
 
 Returns: True if the button is clicked at the time of calling, and otherwise false.
+
+### `wasClicked(button)`
+
+Returns if the given mouse button was released.
+The button name can be one of (case-insensitive):
+- `"left"`
+- `"middle"`, `"wheel"`
+- `"right"`
+
+Parameters:
+- `button` - Name of the button to check.
+
+Returns: True if the button was released since the last update, and otherwise false.
+
+### `play(audio, onStop)`
+
+Starts playback of the given sound. Starting playback of the same sound
+while it is already running will stop the playback and call the previously
+given callback.
+
+Parameters:
+- `audio` - The URL of the audio file to play. Must be a string.
+- *(optional)* `onStop` - A function that shall be called when playback is stopped. (default: `() => {}`)
 
 # Types
 

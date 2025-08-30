@@ -75,6 +75,7 @@ window.addEventListener("load", () => {
         setInterval(() => {
             if(globalThis.update === undefined) { return; }
             globalThis.update();
+            ShuenInputManager._onUpdateEnd();
         }, 1000 / 60.0);
     }
 
