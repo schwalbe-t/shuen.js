@@ -36,7 +36,7 @@ function Scene(width, height) {
          * Entities with higher layers are rendered on top of those with lower
          * layers, and inside the same layer entities with a lower Y coordinate
          * are rendered on top of those with a higher Y coordinate.
-         * The entity will exist in the scene until it is explicitly destroyed
+         * The entity will exist in this scene until it is explicitly destroyed
          * using the `destroy`-method.
          * @param {(string|Texture)} sprite - The image to use for the entity. This may be a string URL or a texture object.
          * @param {number} size - The height of the displayed image in world units.

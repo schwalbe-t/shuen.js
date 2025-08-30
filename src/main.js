@@ -2,7 +2,10 @@
 let _SHUEN_MAIN_SCENE = Scene(100, 100);
 
 /**
- * Replaces the current main scene with the given scene.
+ * Replaces the current main scene with the given scene. Calls to the global 
+ * `spawn`, `destroy` and `lookAt` functions will then affect the given scene 
+ * instead. Note that if `spawn` was previously used, `destroy` must be still 
+ * used on *the old scene* to actually destroy the entity.
  * @param {Scene} scene The new main scene.
  */
 function replaceMainScene(scene) {
@@ -46,7 +49,7 @@ function lookAt(x, y, dist = 20.0) {
 
 window.addEventListener("load", () => {
 
-    function renderLoop(canvas, ctx) {
+    function startRenderLoop(canvas, ctx) {
         let lastTimeStamp = -1;
         const frameHandler = (timestamp) => {
             _SHUEN_MAIN_SCENE.width = canvas.offsetWidth;
@@ -68,11 +71,11 @@ window.addEventListener("load", () => {
         window.requestAnimationFrame(frameHandler);
     }
 
-    function updateLoop() {
+    function startUpdateLoop() {
         setInterval(() => {
             if(globalThis.update === undefined) { return; }
             globalThis.update();
-        }, 1000 / 30);
+        }, 1000 / 60.0);
     }
 
     function createCanvas() {
@@ -84,8 +87,8 @@ window.addEventListener("load", () => {
         canvas.style.height = "100vh";
         document.body.appendChild(canvas);
         const ctx = canvas.getContext("2d");
-        renderLoop(canvas, ctx);
-        updateLoop();
+        startRenderLoop(canvas, ctx);
+        startUpdateLoop();
     }
 
     createCanvas();

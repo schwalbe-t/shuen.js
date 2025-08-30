@@ -26,6 +26,10 @@
  * - `" "`, `"space"`
  * - `"caps"`, `"capslock"`
  * - `"f1"`, `"f2"`, `"f3"`, ..., `"f10"`, `"f11"`, `"f12"`
+ * - `"up"`, `"uparrow"`, `"arrowup"`
+ * - `"down"`, `"downarrow"`, `"arrowdown"`
+ * - `"left"`, `"leftarrow"`, `"arrowleft"`
+ * - `"right"`, `"rightarrow"`, `"arrowright"`
  * @param {string} key Name of the key to check.
  * @returns True if the key is pressed at the time of calling, and otherwise false.
  */
@@ -100,7 +104,11 @@ const isPressed = (() => {
         "f9": "F9",
         "f10": "F10",
         "f11": "F11",
-        "f12": "F12"
+        "f12": "F12",
+        "up": "ArrowUp", "arrowup": "ArrowUp", "uparrow": "ArrowUp",
+        "down": "ArrowDown", "arrowdown": "ArrowDown", "downarrow": "ArrowDown",
+        "left": "ArrowLeft", "arrowleft": "ArrowLeft", "leftarrow": "ArrowLeft",
+        "right": "ArrowRight", "arrowright": "ArrowRight", "rightarrow": "ArrowRight"
     });
 
     const pressed = new Set();
