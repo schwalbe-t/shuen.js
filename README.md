@@ -1,6 +1,43 @@
 # shuen.js
 A Javascript game library with the goal of having the simplest API possible.
 
+# Example
+
+```html
+<!doctype html>
+<html>
+    <head>
+        <script src="shuen.js"></script>
+        <script>
+            const bigKitty = "https://upload.wikimedia.org/wikipedia/commons/thumb/1/16/Kot_Leon.JPG/960px-Kot_Leon.JPG";
+            const smallKitty = "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3b/British_shorthair_with_calico_coat_%282%29.jpg/500px-British_shorthair_with_calico_coat_%282%29.jpg";
+            const meow = "https://upload.wikimedia.org/wikipedia/commons/5/51/Meow_normalized.opus";
+            
+            spawn(bigKitty, 5 /* height in units */);
+            const player = spawn(smallKitty);
+
+            function update() {
+                let dx = 0, dy = 0;
+                if(isPressed("w")) { dy += 1; }
+                if(isPressed("a")) { dx -= 1; }
+                if(isPressed("s")) { dy -= 1; }
+                if(isPressed("d")) { dx += 1; }
+                if(dx != 0 || dy != 0) {
+                    player.x += dx / Math.hypot(dx, dy) * 5 / 60.0;
+                    player.y += dy / Math.hypot(dx, dy) * 5 / 60.0;
+                }
+                lookAt(player.x, player.y, 10 /* camera distance */);
+
+                if(wasPressed("m")) {
+                    play(meow);
+                }
+            }
+        </script>
+    </head>
+    <body></body>
+</html>
+```
+
 # Concepts
 
 ### The Game World
