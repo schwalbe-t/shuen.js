@@ -38,6 +38,8 @@ A Javascript game library with the goal of having the simplest API possible.
 </html>
 ```
 
+For more complex usage examples you may check out the `examples`-directory.
+
 # Concepts
 
 ### The Game World

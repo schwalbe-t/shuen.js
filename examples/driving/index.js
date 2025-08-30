@@ -1,1 +1,7 @@
-// TODO!
+
+generateWorld();
+
+function update() {
+    updateCar();
+    lookAtCar();
+}

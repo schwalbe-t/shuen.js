@@ -50,13 +50,14 @@ const ShuenRenderer = (() => {
         }
         const u = unitSizeOnTex(scene);
         const img = getSpriteImage(entity.sprite);
-        const destHeight = entity.size * u;
+        const destHeight = Math.ceil(entity.size * u);
         const destScale = destHeight / img.height;
-        const destWidth = img.width * destScale;
+        const destWidth = Math.ceil(img.width * destScale);
         const anchorDestX = computeDestX(scene, entity.x);
         const anchorDestY = computeDestY(scene, entity.y);
-        const destLeft = anchorDestX - destWidth / 2.0;
-        const destTop = anchorDestY - destHeight;
+        const destLeft = Math.floor(anchorDestX - destWidth / 2.0);
+        const destTop = Math.floor(anchorDestY - destHeight);
+        scene._output._ctx.imageSmoothingEnabled = false;
         scene._output._ctx.drawImage(
             img, destLeft, destTop, destWidth, destHeight
         );
